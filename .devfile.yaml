@@ -68,6 +68,10 @@ components:
       args:
         - "-c"
         - "sleep 30 && /usr/local/bin/java.sh -jar ./app.jar --port=80"
+      endpoints:
+        - name: carts
+          targetPort: 80
+          exposure: internal
   - name: carts-db
     container:
       image: mongo:3.4
