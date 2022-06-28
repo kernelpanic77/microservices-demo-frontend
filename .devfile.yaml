@@ -67,7 +67,7 @@ components:
         - sh
       args:
         - "-c"
-        - "sleep 30 && /usr/local/bin/java.sh -jar ./app.jar --port=80"
+        - "sleep 30 && /usr/local/bin/java.sh -Djava.security.egd=file:/dev/urandom -jar ./app.jar --port=80"
       endpoints:
         - name: carts
           targetPort: 80
