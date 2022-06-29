@@ -57,7 +57,7 @@ components:
     container:
       image: weaveworksdemos/carts:0.4.8
       cpuLimit: 200m
-      memoryLimit: 200Mi
+      memoryLimit: 500Mi
       cpuRequest: 100m
       memoryRequest: 100Mi
       env:
