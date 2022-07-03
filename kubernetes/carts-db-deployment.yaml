@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file ../docker-compose.yml convert
+    kompose.version: 1.26.1 (a9d05d509)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: carts-db
+  name: carts-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: carts-db
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --file ../docker-compose.yml convert
+        kompose.version: 1.26.1 (a9d05d509)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: carts-db
+    spec:
+      containers:
+        - env:
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: rootpassword
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+          image: mongo:3.4
+          name: carts-db
+          ports:
+            - containerPort: 27017
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+                - CHOWN
+                - SETGID
+                - SETUID
+              drop:
+                - all
+          volumeMounts:
+            - mountPath: /tmp
+              name: carts-db-tmpfs0
+      hostname: carts-db
+      restartPolicy: Always
+      volumes:
+        - emptyDir:
+            medium: Memory
+          name: carts-db-tmpfs0
+status: {}

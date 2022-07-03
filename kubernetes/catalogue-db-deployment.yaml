@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file ../docker-compose.yml convert
+    kompose.version: 1.26.1 (a9d05d509)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: catalogue-db
+  name: catalogue-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: catalogue-db
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --file ../docker-compose.yml convert
+        kompose.version: 1.26.1 (a9d05d509)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: catalogue-db
+    spec:
+      containers:
+        - env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "true"
+            - name: MYSQL_DATABASE
+              value: socksdb
+            - name: MYSQL_ROOT_PASSWORD
+              value: fakepassword
+          image: weaveworksdemos/catalogue-db:0.3.0
+          name: catalogue-db
+          ports:
+            - containerPort: 3360
+          resources: {}
+          volumeMounts:
+            - mountPath: /tmp
+              name: catalogue-db-tmpfs0
+      hostname: catalogue-db
+      restartPolicy: Always
+      volumes:
+        - emptyDir:
+            medium: Memory
+          name: catalogue-db-tmpfs0
+status: {}

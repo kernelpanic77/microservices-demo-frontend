@@ -1,0 +1,49 @@
+schemaVersion: 2.1.0
+metadata:
+  name: microservices-demo
+attributes:
+  controller.devfile.io/storage-type: ephemeral
+  controller.devfile.io/scc: container-build
+components:
+  - name: frontend-pod
+    kubernetes:
+      uri: ./kubernetes/front-end-deployment.yaml
+  - name: frontend-service
+    kubernetes:
+      uri: ./kubernetes/front-end-service.yaml
+  - name: catalogue-pod
+    kubernetes:
+      uri: ./kubernetes/catalogue-deployment.yaml
+  - name: catalogue-service
+    kubernetes:
+      uri: ./kubernetes/catalogue-service.yaml
+  - name: catalogue-db-pod
+    kubernetes:
+      uri: ./kubernetes/catalogue-db-deployment.yaml
+    volumeMounts:
+      - name: catalogue-volume
+        path: /var/lib/mysql
+  - name: catalogue-db-service
+    kubernetes:
+      uri: ./kubernetes/catalogue-db-service.yaml
+  - name: catalogue-volume
+    volume:
+      ephemeral: true
+  - name: carts-pod
+    kubernetes:
+      uri: ./kubernetes/carts-deployment.yaml
+  - name: carts-service
+    kubernetes:
+      uri: ./kubernetes/carts-service.yaml
+  - name: carts-db-pod
+    kubernetes:
+      uri: ./kubernetes/carts-db-deployment.yaml
+    volumeMounts:
+      - name: carts-volume
+        path: /data/db
+  - name: carts-db-service
+    kubernetes:
+      uri: ./kubernetes/carts-db-service.yaml
+  - name: carts-volume
+    volume:
+      ephemeral: true

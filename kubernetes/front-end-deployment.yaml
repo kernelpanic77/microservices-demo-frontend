@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file ../docker-compose.yml convert
+    kompose.version: 1.26.1 (a9d05d509)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: front-end
+  name: front-end
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: front-end
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --file ../docker-compose.yml convert
+        kompose.version: 1.26.1 (a9d05d509)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: front-end
+    spec:
+      containers:
+        - image: quay.io/mloriedo/universal-developer-image:buildah
+          name: front-end
+          ports:
+            - containerPort: 8079
+          resources: {}
+          securityContext:
+            capabilities:
+              drop:
+                - all
+      hostname: front-end
+      restartPolicy: Always
+status: {}
